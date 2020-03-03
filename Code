@@ -1,0 +1,43 @@
+"""
+Name: Julia Wagner
+Date: March 3, 2020
+Python version 3.7
+
+Purpose:This script is a natural langugage processer for Wikipedia webpages. It includes downloading relevant libraries in NLTK and Beautiful Soup to scrape and process the html text.
+The final product is a graph counting key words in the webpage text.
+
+Future directions: In the future, I would like to develop this to read off of Google Maps locations.
+"""
+#import NLTK (natural language toolkt) library
+
+import nltk
+nltk.download('stopwords') #we will use 'stopwords' package later
+
+#website crawler
+import urllib.request #this module crawls the webpage
+response =  urllib.request.urlopen('https://en.wikipedia.org/wiki/Hadwen_Arboretum')
+html = response.read()
+print(html)
+
+#this section can be expanded upon to read more complex webpages like Google Maps' locations
+
+#convert text into a list of tokens
+
+tokens = [t for t in text.split()]
+print(tokens)
+
+#count word frequency
+#remove words like 'a', 'at', 'the', and 'for' using stopwords.words function
+#note: this script is written for text in English
+
+from nltk.corpus import stopwords
+sr= stopwords.words('english') 
+clean_tokens = tokens[:] #create a dictionary
+for token in tokens:
+    if token in stopwords.words('english'):
+        
+        clean_tokens.remove(token) #remove the stopwords tokens
+freq = nltk.FreqDist(clean_tokens) #frequency distribution module
+for key,val in freq.items():
+    print(str(key) + ':' + str(val)) #print the word and the number of times listed
+freq.plot(20, cumulative=False) #create a frequency plot
