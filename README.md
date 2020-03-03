@@ -8,6 +8,44 @@ This script is a natural langugage processer for Wikipedia webpages. It includes
 This script was developed based on a blog post by Raheel Shaikh. You can access it here: https://towardsdatascience.com/gentle-start-to-natural-language-processing-using-python-6e46c07addf3 
 
 # Explanation of Code
+First, we import the NLTK library. 
+```
+import nltk
+nltk.download('stopwords')
+```
+Next, we create a website crawler that scrapes text from a Wikipedia page.
+```
+import urllib.request 
+response =  urllib.request.urlopen('https://en.wikipedia.org/wiki/Hadwen_Arboretum')
+html = response.read()
+print(html)
+```
+Use Beautiful Soup to pull data out of html and xml files. Clean the data.
+```
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(html,'html5lib')
+text = soup.get_text(strip = True) #this gets rid of all text that matches the html library
+print(text)
+```
+Next, we convert the text into a list of tokens.
+```
+tokens = [t for t in text.split()]
+print(tokens)
+```
+Finally, clean the text tokens of stop words like 'a', 'at', 'the', and 'for' using the stopwords function from the NLTK library. Count the word frequence and create a frequency plot. 
+```
+from nltk.corpus import stopwords
+sr= stopwords.words('english') 
+clean_tokens = tokens[:] #create a dictionary
+for token in tokens:
+    if token in stopwords.words('english'):
+        
+        clean_tokens.remove(token) 
+freq = nltk.FreqDist(clean_tokens) 
+for key,val in freq.items():
+    print(str(key) + ':' + str(val))
+freq.plot(20, cumulative=False) \
+```
 
 # Issues
 In the future, I would like to develop this code to crawl and scrape Google Maps pages for parks so that I can read the words that are most associted with park properties. I tried to use this particular script to read Google Maps pages, but my output included a lot of words describing the page font and components. I would like tips on cleaning up the crawler to just read the comment text on Gooogle Maps. Issue requests are welcome!!
